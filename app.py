@@ -32,5 +32,5 @@ def handle_my_custom_event(msg):
     
 
 if __name__=="__main__":
-	app.run()
+	socket.run(app)
 	
