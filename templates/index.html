@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="" content="">
+    <title></title>
+  </head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+
+
+
+
+  <body>
+    <ul id="li">
+      
+    </ul>
+    <input type="text/submit/hidden/button/image" name="" id="box" value="" />
+    <input type="submit" name="submit" id="submit" value="send" />
+  </body>
+</html>
+
+<script type="text/javascript" charset="utf-8">
+var name=prompt("enter your name");
+var room = prompt("room name");
+var socket= io("http://127.0.0.1:5000");
+
+
+  data={"username":name,"room":room}
+  socket.emit("create",data);
+ 
+
+
+socket.on("message",function(msg){
+ var ul=document.querySelector("#li");
+var li= document.createElement("li");
+li.appendChild(document.createTextNode(msg));
+ul.appendChild(li);
+});
+document.querySelector("#submit").addEventListener("click",function(){
+var inp= document.querySelector("#box").value;
+
+  socket.emit("room_msg",{"room":room,"msg":name+" : "+inp});
+  document.querySelector("#box").value="";
+  
+});
+
+</script>
