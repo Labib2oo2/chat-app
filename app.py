@@ -1,11 +1,8 @@
 
 from flask import *
-from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO,send, join_room,leave_room, emit
 import requests
 import json
-import isodate
-from datetime import datetime
 from youtube_search import YoutubeSearch
 
 app = Flask(__name__)
