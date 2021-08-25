@@ -1,48 +1,1094 @@
-
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="" content="">
-    <title></title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
   </head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+  <style type="text/css" media="all">
+    *{margin: 0;
+  padding: 0;}
+  
+#card_div{
+  width:100%;
+  height:150px;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  border-radius: 3px;
+}
+img{
+  
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+#thumbnail{
+  position: relative;
+  width:50%;
+  height:100%;
+  margin: 0;
+  padding: 0;
+}
+#du{
+    color:white;
+    position:absolute;
+    bottom:17%;
+    right:4.5%;
+    padding:2px;
+    margin: 0px 0px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: bold;
+    background: black;
+    
+}
+#content{
+  width: 50%;
+  position:absolute;
+  right: 0;
+  top: 15%;
+  text-align: left;
+  padding-left: 5px;
 
+}
+#title{
+  overflow: scroll;
+  height:37px;
+}
+#cn{
+  position: absolute;
+  width: 100%;
+  text-align: left;
+  font-weight: 300;
+}
+#pub_date{
+  position: absolute;
+  width: 100%;
+  text-align: left;
+  top: 190%;
+  font-size: 10px;
+}
 
+.yt_search_box{
+  position: sticky;
+  top:10px;
+  z-index: 1;
+  background: white;
+  
+  /*transform: translate(-50%,0);*/
+}
 
+.chat_box{
+  background: white;
+  position: sticky;
+  bottom:15px;
+  z-index: 1;
+  height:350px;
+  overflow:scroll;
+  padding: 20px;
+  border:.1px solid black;
+}
 
+#chat_inp{
+ position: absolute;
+  bottom:10px;
+  left:50%;
+  transform: translate(-50%,0%);
+  width: 300px;
+  overflow:hidden;
+}
+#submit{
+  width: 100%;
+  border-radius:2px;
+  background:deepskyblue;
+  padding:5px;
+  border:1px solid black;
+  color:black;
+}
+#box{
+  width: 100%;
+  border-radius:2px;
+  padding:5px;
+  border:1px solid black;
+}
+
+#li{
+  overflow: scroll;
+  height:200px;
+}
+#connection{
+  width:100%;
+  background:#7FFF00;
+  text-align: center;
+  padding:5px;
+  margin: 5px 0px 5px 0px;
+  visibility:hidden;
+  font-weight:bold;
+}
+#participants{
+  margin:5px;
+}
+#members{
+  margin:5px;
+  width:50%;
+  float:right;
+}
+#generate,#room_id,#join_id,#join_btn,#yt_search_bx,#yt_search_btn{
+  border-radius:1px;
+  margin:8px;
+  border:.8px solid black;
+  padding:3px;
+}
+#generate,#join_btn,#yt_search_btn{
+  float:right;
+  width:30%;
+  border:.8px solid black;
+}
+#yt_search_box{
+ 
+}
+.modal-content{
+  border-radius: 1px;
+}
+.btn{
+  background: deepskyblue;
+  outline:0;
+  border:0;
+  border-radius:1px;
+  color:black;
+}
+
+  </style>
   <body>
+
+
+<!-- Modal -->
+<div class="modal fade" data-keyboard="false" data-backdrop="static" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Username</h5>
+      </div>
+      <div class="modal-body">
+        
+  <div class="input-group input-group-sm mb-3">
+ 
+  <input id="uname" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+</div>
+
+      </div>
+      <div class="modal-footer">
+        
+        <button id="uname_btn" type="button" class="btn btn-primary">Ok</button>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    <input type="disabled" name="" id="room_id" value=""  readonly/>
+<button id="generate" type="submit">Generate room</button>
+<input id="join_id" type="text/submit/hidden/button/image" name="" id="" value="" readonly/>
+<button id="join_btn" type="submit">Join room</button>
+  <div class="yt_search_box">
+    <input type="text" id="yt_search_bx" value="" />
+    <button id="yt_search_btn" type="submit">Go</button>
+    </div>
+    <div id="connection">
+      Connected!
+    </div>
+    <div id="iframe_container">
+        <div id="player"></div>
+    </div>
+   
+  
+    
+    <div id="search_results">
+    <div id="card_div" data-vid="AkjQWq-Xn28">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/AkjQWq-Xn28/mqdefault.jpg">
+<p id="du">0:14:09</p>
+</div>
+<div id="content">
+<h6 id="title">Neymar vs Argentina HD 1080i | English Commentary (16/10/2018) By Matan JR</h6>
+<p id="cn">Matan Jr</p>
+<p id="pub_date">19:17:38 , Thu 21 Mar 2019</p>
+</div>
+</div><div id="card_div" data-vid="9aVCAk8oEVk">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/9aVCAk8oEVk/mqdefault.jpg">
+<p id="du">0:08:28</p>
+</div>
+<div id="content">
+<h6 id="title">Lionel Messi ● 13 Most Difficult Goals Ever Scored in Football ||HD||</h6>
+<p id="cn">Messi Magic™</p>
+<p id="pub_date">07:39:33 , Sat 30 Jun 2018</p>
+</div>
+</div><div id="card_div" data-vid="xSsiS304iY8">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/xSsiS304iY8/mqdefault.jpg">
+<p id="du">0:13:35</p>
+</div>
+<div id="content">
+<h6 id="title">Football Matches That Shocked The World</h6>
+<p id="cn">TKHD</p>
+<p id="pub_date">10:00:12 , Sun 18 Oct 2020</p>
+</div>
+</div><div id="card_div" data-vid="rrZwBb_MX6g">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/rrZwBb_MX6g/mqdefault.jpg">
+<p id="du">0:04:01</p>
+</div>
+<div id="content">
+<h6 id="title">BEST SOCCER FOOTBALL VINES &amp; TIKTOK'S 😂 FAILS, SKILLS, GOALS</h6>
+<p id="cn">Fr4nce</p>
+<p id="pub_date">15:00:31 , Sun 25 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="qh-yxk-qAOc">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/qh-yxk-qAOc/mqdefault.jpg">
+<p id="du">0:09:48</p>
+</div>
+<div id="content">
+<h6 id="title">Unforgettable Goals in Football #2</h6>
+<p id="cn">TKHD</p>
+<p id="pub_date">10:00:27 , Fri 19 Mar 2021</p>
+</div>
+</div><div id="card_div" data-vid="910rZ6euJog">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/910rZ6euJog/mqdefault.jpg">
+<p id="du">0:08:34</p>
+</div>
+<div id="content">
+<h6 id="title">Kung Fu Football | Soccer Without Rules |</h6>
+<p id="cn">FOOTBAL FOREVER</p>
+<p id="pub_date">01:48:05 , Mon 24 Feb 2020</p>
+</div>
+</div><div id="card_div" data-vid="aJNQPzQco34">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/aJNQPzQco34/mqdefault.jpg">
+<p id="du">0:08:24</p>
+</div>
+<div id="content">
+<h6 id="title">WHEN PLAYERS LOSE CONTROL IN FOOTBALL</h6>
+<p id="cn">CREATIVE</p>
+<p id="pub_date">14:02:58 , Sun 25 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="re5QmmfKaU8">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/re5QmmfKaU8/mqdefault.jpg">
+<p id="du">0:07:31</p>
+</div>
+<div id="content">
+<h6 id="title">Horror Moments in Football</h6>
+<p id="cn">Alsido Football</p>
+<p id="pub_date">17:30:03 , Fri 26 Mar 2021</p>
+</div>
+</div><div id="card_div" data-vid="gDgFXMKA6QU">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/gDgFXMKA6QU/mqdefault.jpg">
+<p id="du">0:10:03</p>
+</div>
+<div id="content">
+<h6 id="title">Funny Own Goals in Football</h6>
+<p id="cn">TKHD</p>
+<p id="pub_date">08:00:11 , Tue 20 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="vwtUVwXWy8Y">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/vwtUVwXWy8Y/mqdefault.jpg">
+<p id="du">0:08:04</p>
+</div>
+<div id="content">
+<h6 id="title">KIDS IN FOOTBALL - FAILS, SKILLS &amp; GOALS #1</h6>
+<p id="cn">SKILLER</p>
+<p id="pub_date">16:13:17 , Sat 12 Dec 2020</p>
+</div>
+</div><div id="card_div" data-vid="7vlJmhkC1jY">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/7vlJmhkC1jY/mqdefault.jpg">
+<p id="du">0:10:49</p>
+</div>
+<div id="content">
+<h6 id="title">Crazy Goal Celebrations in Football</h6>
+<p id="cn">iFutGol</p>
+<p id="pub_date">15:35:52 , Thu 09 Jul 2020</p>
+</div>
+</div><div id="card_div" data-vid="8qJ-hDOjwAE">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/8qJ-hDOjwAE/mqdefault.jpg">
+<p id="du">0:09:08</p>
+</div>
+<div id="content">
+<h6 id="title">20 IMPOSSIBLE MOMENTS IN FOOTBALL HISTORY</h6>
+<p id="cn">iFutGol</p>
+<p id="pub_date">15:57:12 , Thu 15 Oct 2020</p>
+</div>
+</div><div id="card_div" data-vid="KnayYn1nNHA">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/KnayYn1nNHA/mqdefault.jpg">
+<p id="du">0:08:02</p>
+</div>
+<div id="content">
+<h6 id="title">Legendary No Touch Skills in Football</h6>
+<p id="cn">SportsHD</p>
+<p id="pub_date">17:31:28 , Thu 22 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="nO0c3wNcIXQ">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/nO0c3wNcIXQ/mqdefault.jpg">
+<p id="du">0:09:23</p>
+</div>
+<div id="content">
+<h6 id="title">20 FAMOUS RED CARDS IN FOOTBALL</h6>
+<p id="cn">CREATIVE</p>
+<p id="pub_date">14:03:23 , Sat 24 Oct 2020</p>
+</div>
+</div><div id="card_div" data-vid="RHoDkvGEM4c">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/RHoDkvGEM4c/mqdefault.jpg">
+<p id="du">0:00:49</p>
+</div>
+<div id="content">
+<h6 id="title">ব্রাজিল ৪-২ জার্মানি; রিচার্লিসনের হ্যাটট্রিক || Brazil 4-2 Germany | Olympic Football</h6>
+<p id="cn">Independent Television</p>
+<p id="pub_date">17:41:39 , Thu 22 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="LkBkd6dJy4c">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/LkBkd6dJy4c/mqdefault.jpg">
+<p id="du">0:07:55</p>
+</div>
+<div id="content">
+<h6 id="title">Horror Fights &amp; Red Cards Moments in Football #6</h6>
+<p id="cn">SEN31 Extra</p>
+<p id="pub_date">11:02:57 , Tue 16 Mar 2021</p>
+</div>
+</div><div id="card_div" data-vid="3b1xbAFBQL4">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/3b1xbAFBQL4/mqdefault.jpg">
+<p id="du">0:09:50</p>
+</div>
+<div id="content">
+<h6 id="title">Horror Fights &amp; Red Cards Moments in Football #2</h6>
+<p id="cn">SEN31 Extra</p>
+<p id="pub_date">10:14:17 , Tue 12 Jan 2021</p>
+</div>
+</div><div id="card_div" data-vid="yVLUyLjdVQc">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/yVLUyLjdVQc/mqdefault.jpg">
+<p id="du">0:04:05</p>
+</div>
+<div id="content">
+<h6 id="title">BEST SOCCER FOOTBALL VINES &amp; TIKTOK'S 😂 FAILS, SKILLS, GOALS</h6>
+<p id="cn">Fr4nce</p>
+<p id="pub_date">15:00:26 , Sat 24 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="Vn7wI5MBow4">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/Vn7wI5MBow4/mqdefault.jpg">
+<p id="du">0:12:49</p>
+</div>
+<div id="content">
+<h6 id="title">Top 10 Duos In Football 2021</h6>
+<p id="cn">Home of Football</p>
+<p id="pub_date">12:00:23 , Sat 24 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="KZTeJd0haTk">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/KZTeJd0haTk/mqdefault.jpg">
+<p id="du">0:04:20</p>
+</div>
+<div id="content">
+<h6 id="title">10 UNUSUAL PENALTY KICKS IN FOOTBALL</h6>
+<p id="cn">CREATIVE</p>
+<p id="pub_date">14:09:07 , Tue 19 Jan 2021</p>
+</div>
+</div><div id="card_div" data-vid="RJqimlFcJsM">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/RJqimlFcJsM/mqdefault.jpg">
+<p id="du">0:03:56</p>
+</div>
+<div id="content">
+<h6 id="title">Three Lions (Football's Coming Home) (Official Video)</h6>
+<p id="cn">LightningSeedsVEVO</p>
+<p id="pub_date">00:52:36 , Wed 03 Oct 2012</p>
+</div>
+</div><div id="card_div" data-vid="DeDAxEtKPZY">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/DeDAxEtKPZY/mqdefault.jpg">
+<p id="du">0:08:43</p>
+</div>
+<div id="content">
+<h6 id="title">Moments that BROKE the internet in football</h6>
+<p id="cn">DNpro</p>
+<p id="pub_date">16:08:26 , Wed 14 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="dz02ROexvIc">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/dz02ROexvIc/mqdefault.jpg">
+<p id="du">0:11:55</p>
+</div>
+<div id="content">
+<h6 id="title">David Silva Plays Football With One Touch..</h6>
+<p id="cn">ASComps - Match Compilations</p>
+<p id="pub_date">13:00:30 , Sun 25 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="61SrSEjurNg">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/61SrSEjurNg/mqdefault.jpg">
+<p id="du">0:05:36</p>
+</div>
+<div id="content">
+<h6 id="title">Funny Penalty Kicks in Football #2</h6>
+<p id="cn">TKHD</p>
+<p id="pub_date">10:00:01 , Sun 21 Feb 2021</p>
+</div>
+</div><div id="card_div" data-vid="LYhoogd56SU">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/LYhoogd56SU/mqdefault.jpg">
+<p id="du">0:11:37</p>
+</div>
+<div id="content">
+<h6 id="title">Bangladesh vs India Football Match Highlights | FIFA world cup 2022 qualifiers</h6>
+<p id="cn">Live Sports</p>
+<p id="pub_date">20:26:30 , Mon 07 Jun 2021</p>
+</div>
+</div><div id="card_div" data-vid="d8wF2zcQxts">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/d8wF2zcQxts/mqdefault.jpg">
+<p id="du">0:10:20</p>
+</div>
+<div id="content">
+<h6 id="title">Funny Moments in Football</h6>
+<p id="cn">TKHD</p>
+<p id="pub_date">10:00:05 , Sat 08 Feb 2020</p>
+</div>
+</div><div id="card_div" data-vid="mZSKw4e2f6Y">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/mZSKw4e2f6Y/mqdefault.jpg">
+<p id="du">0:08:06</p>
+</div>
+<div id="content">
+<h6 id="title">Unforgettable Free Kick Goals in Football</h6>
+<p id="cn">SEN31 Extra</p>
+<p id="pub_date">12:38:19 , Tue 06 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="TflqGb_fNh4">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/TflqGb_fNh4/mqdefault.jpg">
+<p id="du">0:14:59</p>
+</div>
+<div id="content">
+<h6 id="title">Top 10 Bad Boys In Football 2021</h6>
+<p id="cn">MM9 PRO HDI</p>
+<p id="pub_date">14:00:19 , Sat 24 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="5w5uCrdSdrM">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/5w5uCrdSdrM/mqdefault.jpg">
+<p id="du">0:09:16</p>
+</div>
+<div id="content">
+<h6 id="title">Football Moments That No One Expected #2</h6>
+<p id="cn">MNXHD</p>
+<p id="pub_date">14:16:24 , Fri 16 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="L6SE-A2rJwQ">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/L6SE-A2rJwQ/mqdefault.jpg">
+<p id="du">0:08:12</p>
+</div>
+<div id="content">
+<h6 id="title">Incredible Open Goal Misses in Football</h6>
+<p id="cn">TKHD</p>
+<p id="pub_date">09:00:13 , Mon 28 Jun 2021</p>
+</div>
+</div><div id="card_div" data-vid="mU-2qL6WN_k">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/mU-2qL6WN_k/mqdefault.jpg">
+<p id="du">0:28:43</p>
+</div>
+<div id="content">
+<h6 id="title">Kids Play Football Match and in the ChuChu TV Funzone Stadium – Football Goals Funny Moments</h6>
+<p id="cn">ChuChu TV Funzone 3D Nursery Rhymes</p>
+<p id="pub_date">15:41:37 , Mon 25 Jun 2018</p>
+</div>
+</div><div id="card_div" data-vid="NygXejdtDh8">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/NygXejdtDh8/mqdefault.jpg">
+<p id="du">0:36:25</p>
+</div>
+<div id="content">
+<h6 id="title">The Soccer (Football) Song + More Nursery Rhymes &amp; Kids Songs - CoComelon</h6>
+<p id="cn">Cocomelon - Nursery Rhymes</p>
+<p id="pub_date">07:00:01 , Fri 05 Apr 2019</p>
+</div>
+</div><div id="card_div" data-vid="sb7DHMFdNKE">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/sb7DHMFdNKE/mqdefault.jpg">
+<p id="du">0:06:14</p>
+</div>
+<div id="content">
+<h6 id="title">Ball Controls that can't be repeated in football</h6>
+<p id="cn">SportsHD</p>
+<p id="pub_date">17:10:17 , Sat 13 Mar 2021</p>
+</div>
+</div><div id="card_div" data-vid="TdfG7ZN03ao">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/TdfG7ZN03ao/mqdefault.jpg">
+<p id="du">0:11:32</p>
+</div>
+<div id="content">
+<h6 id="title">Professional football player team game, traning eye view</h6>
+<p id="cn">제이풋볼JFootballTV</p>
+<p id="pub_date">12:00:15 , Fri 23 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="OzjtyVbZz6E">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/OzjtyVbZz6E/mqdefault.jpg">
+<p id="du">0:21:58</p>
+</div>
+<div id="content">
+<h6 id="title">20 Minutes of Greatest Football Comebacks Ever</h6>
+<p id="cn">Alsido Football</p>
+<p id="pub_date">20:50:12 , Sat 29 Aug 2020</p>
+</div>
+</div><div id="card_div" data-vid="5wnlGTYFJjA">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/5wnlGTYFJjA/mqdefault.jpg">
+<p id="du">0:26:08</p>
+</div>
+<div id="content">
+<h6 id="title">I Challenged Kid PRO Footballers to A Football Tournament! MAN UNITED KID SANCHO vs KID HALAAND!!</h6>
+<p id="cn">SV2</p>
+<p id="pub_date">17:32:24 , Sat 17 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="Y1gyluAawE4">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/Y1gyluAawE4/mqdefault.jpg">
+<p id="du">0:10:43</p>
+</div>
+<div id="content">
+<h6 id="title">Heartbreaking Football Moments!</h6>
+<p id="cn">Nezzer</p>
+<p id="pub_date">15:45:01 , Mon 07 Sep 2020</p>
+</div>
+</div><div id="card_div" data-vid="4FTBucLcNvY">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/4FTBucLcNvY/mqdefault.jpg">
+<p id="du">0:06:22</p>
+</div>
+<div id="content">
+<h6 id="title">Craziest &amp; Shocking Football Chats</h6>
+<p id="cn">SEN31 Extra</p>
+<p id="pub_date">16:07:09 , Mon 12 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="hwjxEnNGJOc">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/hwjxEnNGJOc/mqdefault.jpg">
+<p id="du">0:04:01</p>
+</div>
+<div id="content">
+<h6 id="title">BEST SOCCER FOOTBALL VINES &amp; TIKTOK'S   FAILS, SKILLS, GOALS</h6>
+<p id="cn">Fr4nce</p>
+<p id="pub_date">15:00:20 , Thu 22 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="WJ93aW3rqCw">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/WJ93aW3rqCw/mqdefault.jpg">
+<p id="du">0:09:18</p>
+</div>
+<div id="content">
+<h6 id="title">College Football "Well That's Awkward" Moments</h6>
+<p id="cn">PSC Highlights</p>
+<p id="pub_date">22:12:45 , Sun 25 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="5-IyWs3fLRI">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/5-IyWs3fLRI/mqdefault.jpg">
+<p id="du">0:09:07</p>
+</div>
+<div id="content">
+<h6 id="title">REAL MADRID SURPRISED BARCELONA WITH THEIR DECISION ON MESSI! You will respect REAL!</h6>
+<p id="cn">Football News</p>
+<p id="pub_date">14:14:01 , Fri 23 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="A-r9sj7zHJ4">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/A-r9sj7zHJ4/mqdefault.jpg">
+<p id="du">0:12:22</p>
+</div>
+<div id="content">
+<h6 id="title">The Beauty of Football - Greatest Moments</h6>
+<p id="cn">LeBreton</p>
+<p id="pub_date">21:02:48 , Wed 04 Nov 2020</p>
+</div>
+</div><div id="card_div" data-vid="lNTUNpW0gDk">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/lNTUNpW0gDk/mqdefault.jpg">
+<p id="du">1:18:14</p>
+</div>
+<div id="content">
+<h6 id="title">Varane to Man United ADVANCED STAGES | DEAL COMPLETED SOON | Man United Transfer News</h6>
+<p id="cn">The Football Terrace</p>
+<p id="pub_date">17:34:52 , Sun 25 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="W8DIV7TiHJg">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/W8DIV7TiHJg/mqdefault.jpg">
+<p id="du">0:08:25</p>
+</div>
+<div id="content">
+<h6 id="title">Most Beautiful &amp; Respect Moments in Football 2021</h6>
+<p id="cn">Madvids97</p>
+<p id="pub_date">19:28:52 , Thu 15 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="RGtV1FmaeSk">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/RGtV1FmaeSk/mqdefault.jpg">
+<p id="du">0:08:56</p>
+</div>
+<div id="content">
+<h6 id="title">WTF Moments In Football #10</h6>
+<p id="cn">SEN31 Extra</p>
+<p id="pub_date">10:34:54 , Sun 18 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="kovgO042EjE">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/kovgO042EjE/mqdefault.jpg">
+<p id="du">0:01:00</p>
+</div>
+<div id="content">
+<h6 id="title">Olympics 2021 Football Matches Review | Round 1</h6>
+<p id="cn">MY GOAL Reports</p>
+<p id="pub_date">15:06:53 , Thu 22 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="zELTmYox3Z0">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/zELTmYox3Z0/mqdefault.jpg">
+<p id="du">0:08:33</p>
+</div>
+<div id="content">
+<h6 id="title">This Would BE THE DEATH of College Football As We Know It</h6>
+<p id="cn">Scott Fisher</p>
+<p id="pub_date">16:49:56 , Sat 24 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="yFz0SUsWDWM">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/yFz0SUsWDWM/mqdefault.jpg">
+<p id="du">2:14:00</p>
+</div>
+<div id="content">
+<h6 id="title">Football / match de préparation : AS Saint-Etienne - Clermont Foot</h6>
+<p id="cn">Journal La Montagne</p>
+<p id="pub_date">18:06:38 , Sat 24 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="0M5AY9dNAGo">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/0M5AY9dNAGo/mqdefault.jpg">
+<p id="du">0:09:37</p>
+</div>
+<div id="content">
+<h6 id="title">Most Disrespectful Celebrations in Football!</h6>
+<p id="cn">SidemenReacts</p>
+<p id="pub_date">16:26:33 , Tue 13 Jul 2021</p>
+</div>
+</div><div id="card_div" data-vid="GzuTYavWeUE">
+<div id="thumbnail">
+<img width="95%" src="https://i.ytimg.com/vi/GzuTYavWeUE/mqdefault.jpg">
+<p id="du">0:08:25</p>
+</div>
+<div id="content">
+<h6 id="title">Most Unusual Moments In Football</h6>
+<p id="cn">MNXHD</p>
+<p id="pub_date">14:43:53 , Tue 27 Oct 2020</p>
+</div>
+</div>
+    </div>
+  
+  
+  <div class="chat_box">
+  <div>
+    <span id="participants">Participants</span><select id="members">
+      <option>All</option>
+    </select>
+  </div>
     <ul id="li">
       
     </ul>
+    
+    <div id="chat_inp">
     <input type="text/submit/hidden/button/image" name="" id="box" value="" />
     <input type="submit" name="submit" id="submit" value="send" />
+    </div>
+    </div>
+    
+
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
 
+
+<script src="https://cdn.socket.io/3.1.3/socket.io.min.js" integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh" crossorigin="anonymous"></script>
+
+
 <script type="text/javascript" charset="utf-8">
-var name=prompt("enter your name");
-var room = prompt("room name");
-var socket= io("https://labib-chat-app.herokuapp.com/");
 
+let myModal = new bootstrap.Modal(document.getElementById('exampleModalCenter'));
 
-  data={"username":name,"room":room}
-  socket.emit("create",data);
+myModal.backdrop="static";
+myModal.keyboard="false";
+myModal.show();
+var name;
+document.getElementById("uname_btn").addEventListener("click",function(){
+  name=document.getElementById("uname").value;
+  
+  if(name.length==0){
+    
+  }else{
+    socket.emit("uname",{"name":name});
+   
+     
+
+    };
+});
  
 
+
+var room = "";
+var socket= io("http://127.0.0.1:5000");
+
+var sl = document.querySelector("#members");
+var player;
+var psc;
+var c_time;
+
+socket.on("entered",function(ar){
+ alert(ar);
+  sl.innerHTML="";
+  sl.innerHTML+="<option value='' >All</option>";
+  for(var i=0;i<ar.length;i++){
+  
+  sl.innerHTML+="<option value="+ar[i]["sid"]+">"+ar[i]["username"]+"</option>";
+ 
+  };
+  
+});
+ 
+ 
+socket.on("unique_name",function(v){
+     if (v==1){
+     if(room.length != 0){
+  join_btn_func();
+ };
+       myModal.hide();
+       setTimeout(function(){connection.style.cssText="visibility:hidden;"},1500);
+     };
+   });
 
 socket.on("message",function(msg){
  var ul=document.querySelector("#li");
 var li= document.createElement("li");
 li.appendChild(document.createTextNode(msg));
 ul.appendChild(li);
+updateScroll();
 });
-document.querySelector("#submit").addEventListener("click",function(){
-var inp= document.querySelector("#box").value;
 
-  socket.emit("room_msg",{"room":room,"msg":name+" : "+inp});
-  document.querySelector("#box").value="";
+var connection = document.getElementById("connection");
+
+socket.on("connect",function(){
+ connection.style.cssText="visibility:visible;background:#7FFF00";
+ connection.innerHTML="Connected!"
+ myModal.show();
+});
+
+console.log(window.clientInformation.onLine);
+
+socket.on("seekto",function(obj){
+ seek=true;
+  c_time=obj["time"];
+ // socket.emit("c_time",{"name":name,"c_time":c_time,"room":room});
+         
+  player.seekTo(obj["time"]);
+});
+socket.on("getTo",function(time){
+    player.seekTo(time);
+});
+socket.on('disconnect',function(){
+  connection.style.cssText="visibility:visible;background:tomato";
+  connection.innerHTML="Disconnected..."
+});
+/*
+socket.on("stop",function(){
+  alert("pause");
+  player.pauseVideo();
+});
+socket.on("start",function(){
+  player.playVideo();
+});
+*/
+socket.on("requested_video_id",function(id){
+  var vid=id;
+  var iframe_container=document.getElementById("iframe_container");
+      iframe_container.innerHTML="<div id='player'></div>";
+  
+  window.scroll(0,0);
+   
+  var tag = document.createElement('script');
+
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+     
+    
+      window.onYouTubeIframeAPIReady=ready;
+      
+     function ready() {
+        player = new YT.Player('player', {
+          
+          height: '40%',
+          width: '100%',
+          videoId: vid,
+          playerVars: {
+            'modestbranding':1,
+             'fs':1,
+            
+           
+            'playsinline':1,
+            'rel':1,
+            'controls':1
+        
+          
+          },
+          events: {
+            'onReady': onPlayerReady,
+            'onStateChange': psc
+          }
+        });
+        console.log(player);
+    
+      };
+
+     ready();
+    
+      function onPlayerReady(event) {
+        event.target.playVideo();
+        
+       
+      }
+ 
+      
+      
+     
+      
+      function stopVideo() {
+        alert("stop");
+       player.stopVideo();
+      } 
   
 });
 
+document.querySelector("#submit").addEventListener("click",function(){
+var inp= document.querySelector("#box").value;
+  
+  if(room.length!=0){
+  if(sl.value==''){
+   console.log(room);
+  socket.emit("room_msg",{"room":room,"msg":name+" : "+inp});
+  document.querySelector("#box").value="";
+  }else{
+    
+    var sid = sl.value;
+
+    socket.emit("room_msg",{"room":sid,"msg":name+" (private) : "+inp});
+  document.querySelector("#box").value="";
+  };
+}else {
+  alert("Join a room first !");
+  
+};
+
+
+});
+
+// generating string 
+
+const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+function generateString(length) {
+    let result = ' ';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result.trim();
+}
+
+
+document.getElementById("generate").addEventListener("click",function(){
+ var id= document.querySelector("#room_id").value=generateString(10);
+  document.querySelector("#join_id").value=id;
+  
+});
+
+rooms_ar=[]
+
+function join_btn_func(){
+  room = document.querySelector("#join_id").value;
+  rooms_ar.push(room);
+  if (rooms_ar.length>2){
+    rooms_ar.shift();
+  };
+  var iframe_container=document.getElementById("iframe_container");
+  iframe_container.innerHTML="";
+  if(room.length!=0){
+
+  data={"username":name,"room":rooms_ar}
+ 
+  socket.emit("create",data);
+  
+  }else{
+    alert("Generate a room first ! ");
+  };
+  
+};
+document.getElementById("join_btn").addEventListener("click",function(){
+  if(name==""){
+    myModal.show();
+  }else{
+    join_btn_func();
+    
+  }
+  
+});
+
+
+var yt_btn= document.getElementById("yt_search_btn");
+
+yt_btn.addEventListener("click",function(){
+var yt_txt=document.getElementById("yt_search_bx").value;
+
+  var yt_request=new XMLHttpRequest();
+yt_request.onload=function(){
+  var txt=JSON.parse(this.responseText);
+  
+var search_results= document.getElementById("search_results");
+ 
+search_results.innerHTML="";
+for(var i=0; i <txt.length;i++){
+  var id=txt[i].id;
+  var publishedAt=txt[i].publishedAt;
+  var title=txt[i].title;
+  var thumbnail=txt[i].thumbnail;
+  var channelTitle=txt[i].channelTitle;
+  var duration=txt[i].duration;
+  console.log(id);
+  search_results.innerHTML+="<div id='card_div' data-vid='"+id+"' >\n<div id='thumbnail'>\n<img  width='95%' src="+thumbnail+"></img>\n<p id='du'>"+duration+"</p>\n</div>\n<div id='content'>\n<h6 id='title'>"+title+"</h6>\n<p id='cn'>"+channelTitle+"</p>\n<p id='pub_date'>"+publishedAt+"</p>\n</div>\n</div>"
+};
+var src_results= document.querySelectorAll("#card_div");
+
+for(var j=0; j<src_results.length;j++){
+  src_results[j].addEventListener("click",function(){
+  
+      var id = this.getAttribute("data-vid");
+      socket.emit("requested_video" ,{"id":id,"room":room});
+
+    
+ 
+
+
+  });;
+  
+};
+
+
+};
+yt_request.open("GET","/yt_search/"+yt_txt,true);
+yt_request.send();
+
+
+
+  
+  
+});
+
+function updateScroll(){
+    var element = document.querySelector("#li");
+    
+    element.scrollTop=element.scrollHeight+500;
+};
+
+
+var src_results= document.querySelectorAll("#card_div");
+
+for(var i=0; i<src_results.length; i++){
+    
+    src_results[i].addEventListener("click",function(e){
+      var id = this.getAttribute("data-vid");
+      socket.emit("requested_video" ,{"id":id,"room":room});
+
+
+    });
+ 
+};
+
+var done = false;
+var psc= function onPlayerStateChange(event) { 
+  
+    
+     if(event.data==1){
+       socket.emit("played",{"name":name,"room":room});
+     };
+     if(event.data==2 ){
+       socket.emit("paused",{"name":name,"room":room})
+     };
+     if(!done){
+       var tm_ar =[];
+   
+   setInterval(function(){
+      if(player){
+    
+    
+     
+    
+    var p_rate= player.playerInfo.playbackRate;
+    c_time= player.playerInfo.currentTime;
+       
+       
+        
+        tm_ar.push(c_time);
+         if(tm_ar.length>2){
+           tm_ar.shift();
+         };
+         if(parseInt(Math.abs(tm_ar[1]-tm_ar[0]))>p_rate){
+        
+        socket.emit("seeked",{"name":name,"room":room,"time":c_time});
+           
+         };
+         if(player.playerInfo.playerState==1){
+         socket.emit("c_time",{"name":name,"c_time":c_time,"room":room});
+       };
+         
+      };
+          
+   },  100 );
+      done=true;
+     };
+   
+
+      };
+      
+   
 </script>
