@@ -1077,8 +1077,8 @@ var psc= function onPlayerStateChange(event) {
         socket.emit("seeked",{"name":name,"room":room,"time":c_time});
            
          };
-         if(player.playerInfo.playerState==1){
-         socket.emit("c_time",{"name":name,"c_time":c_time,"room":room});
+         /* if(player.playerInfo.playerState==1){
+         socket.emit("c_time",{"name":name,"c_time":c_time,"room":room}); */
        };
          
       };
