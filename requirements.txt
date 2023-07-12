@@ -6,3 +6,4 @@ gevent-websocket==0.10.1
 requests==2.22.0
 youtube_search==2.1.0
 jinja2==3.0.3
+itsdangerous==2.0.1
